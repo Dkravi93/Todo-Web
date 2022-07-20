@@ -48,12 +48,13 @@ router.post('/register', (req,res) => {
 
 router.post("/login", (req,res)=> {
      const { email, password } = req.query;
-     const found = User.find ((el)=> {
-        el.email === email && el.password === password
+     const found = User.filter ((el)=> {
+        return el.email === email && el.password === password
      });
+  
      if(found) {
-        res.session.userId = email;
-        res.session.password = password;
+        req.session.userId = email;
+        req.session.password = password;
         res.status(201).json({
             status: 'success',
             message: "Succesfully logged in"
@@ -65,6 +66,17 @@ router.post("/login", (req,res)=> {
             message : "Please check your Email or Password"
         });
      }
+});
+
+
+router.get('/logout',(req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/');
+    });
+
 });
 
 router.patch('/update/:id', (req, res)=> {
