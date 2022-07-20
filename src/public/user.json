@@ -1,0 +1,30 @@
+[
+  {
+    "id": "957f4299-8beb-4721-a0c0-4603d9e57b28",
+    "name": "Dee",
+    "email": "Deps",
+    "password": "e",
+    "contact": "123"
+  },
+  {
+    "id": "86be4bbd-78a6-4f14-bd5d-d517e48f98b9",
+    "name": "Dee",
+    "email": "Deers",
+    "password": "eeer",
+    "contact": "1235"
+  },
+  {
+    "id": 3,
+    "name": "Deepak",
+    "email": "Deer@x",
+    "password": "eeer",
+    "contact": "12345"
+  },
+  {
+    "id": 4,
+    "name": "Deepak",
+    "email": "Deer@x.com",
+    "password": "eeer",
+    "contact": "1234589"
+  }
+]

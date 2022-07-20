@@ -1,33 +1,44 @@
 const Auth = require("./AuthHandler");
 const  router = require('express').Router();
-const User = require("./../../public/user.json");
-const { v4: uuidv4 } = require('uuid');
-
+const User = require("./../public/user.json");
+const fs = require("fs");
 
 
 router.post('/register', (req,res) => {
-    const auth = new Auth(req.query).isValid();
+    const auth = new Auth(req.body).isValid();
     
     if (auth == "Email already in use" ){
         res.status(500).json({
           status : 'error',
-          message : "Please check your Email "
+          message : "Please check your Email"
         });
-    }else if (auth == "Contact already in use"){
+        return
+    }
+    if (auth == "Contact already in use"){
         res.status(500).json({
             status : 'error',
             message : "Please check your Contact"
           });
+          return
     }
-    const {name , email, password, contact} = req.query ;
+    const {name , email, password, contact} = req.body ;
     const newUser = {
-        id : uuidv4(),
+        id : User.length +1,
         name,
         email,
         password,
         contact
     }
     User.push(newUser);
+
+    fs.writeFile("public/user.json", JSON.stringify(User), err => {
+     
+        // Checking for errors
+        if (err) throw err; 
+       
+        console.log("Done writing"); // Success
+    });
+    
     res.status(200).json({
         status : 'success',
         user : newUser
@@ -41,6 +52,8 @@ router.post("/login", (req,res)=> {
         el.email === email && el.password === password
      });
      if(found) {
+        res.session.userId = email;
+        res.session.password = password;
         res.status(201).json({
             status: 'success',
             message: "Succesfully logged in"
